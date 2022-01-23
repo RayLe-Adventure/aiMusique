@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+
+    <a href="{{ url_for('hello') }}">Home</a>
+    <h1>Admin Page</h1>
+    <label>Action: </label><label style="color:red;">{{done}}</label>
+    <hr>
+
+    <h3>Comments Data Management</h3>
+    <form action="{{ url_for('delete_all_comments') }}" method="post">
+        <button type="submit">Delete All Comments</button>
+    </form>
+    <br>
+    <a href="{{ url_for('admin_comments') }}">Manage Comments by one</a>
+    <hr>
+
+    <h3>Songs Data Management</h3>
+    <form action="{{ url_for('delete_all_songs') }}" method="post">
+        <button type="submit">Delete All Songs</button>
+    </form>
+    <br>
+    <a href="{{ url_for('admin_songs') }}">Manage Songs by one</a>
+    <hr>
+
+</body>
+</html>

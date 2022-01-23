@@ -138,6 +138,54 @@ def get_contact():
 def get_about():
     return render_template('about.html', date=datetime.date.today().year)
 
+@app.route('/lucky-777-page-111-admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == "POST":
+        return render_template('admin.html', done="done")
+    return render_template('admin.html', done="")
+
+@app.route('/lucky-777-page-111-admin-as')
+def admin_songs():
+    all_songs = db.session.query(Song).all()
+    all_songs.reverse()
+    return render_template("admin_songs.html", songs=all_songs)
+
+@app.route('/lucky-777-page-111-admin-as/<int:id_song>', methods=["POST"])
+def delete_song(id_song):
+    song_to_delete = Song.query.get(id_song)
+    db.session.delete(song_to_delete)
+    db.session.commit()
+    all_songs = db.session.query(Song).all()
+    all_songs.reverse()
+    return render_template("admin_songs.html", songs=all_songs)
+
+@app.route('/lucky-777-page-111-admin-ac')
+def admin_comments():
+    all_comments = db.session.query(Comment).all()
+    all_comments.reverse()
+    return render_template("admin_comments.html", comments=all_comments)
+
+@app.route('/lucky-777-page-111-admin-ac/<int:id_comment>', methods=['POST'])
+def delete_comment(id_comment):
+    comment_to_delete = Comment.query.get(id_comment)
+    db.session.delete(comment_to_delete)
+    db.session.commit()
+    all_comments = db.session.query(Comment).all()
+    all_comments.reverse()
+    return render_template("admin_comments.html", comments=all_comments)
+
+@app.route('/pc', methods=['POST'])
+def delete_all_comments():
+    db.session.query(Comment).delete()
+    db.session.commit()
+    return render_template('admin.html', done="DELETED ALL COMMENTS")
+
+@app.route('/ps', methods=['POST'])
+def delete_all_songs():
+    db.session.query(Song).delete()
+    db.session.commit()
+    return render_template('admin.html', done="DELETED ALL SONGS")
+
 def nom_generator(text):
     response = openai.Completion.create(
         model=model,
@@ -241,4 +289,4 @@ def send_email(name, email, message):
         connection.sendmail(my_email, my_email, email_message)
 """
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)

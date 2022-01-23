@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Comments</title>
+</head>
+<body>
+    <a href="{{ url_for('hello') }}">Home</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <hr>
+    <h3>All comments:</h3>
+
+    {% for comment in comments: %}
+        <form action="{{ url_for('delete_comment', id_comment=comment.id) }}" method="post">
+            <ul>
+                <li>
+                    <p>{{comment.nick}} on {{comment.date}} --- {{comment.emotion}} </p>
+                    <p>{{comment.comment}}</p>
+                    <button type="submit">Delete</button>
+                </li>
+            </ul>
+        </form>
+    {% endfor %}
+
+</body>
+</html>

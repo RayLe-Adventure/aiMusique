@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Songs</title>
+</head>
+<body>
+    <a href="{{ url_for('hello') }}">Home</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <hr>
+    <h3>All songs:</h3>
+
+    {% for song in songs: %}
+        <form action="{{ url_for('delete_song', id_song=song.id) }}" method="post">
+            <ul>
+                <li>
+                    <p>{{song.title}}</p>
+                    <p>{{songs.avis}} --- {{song.note}}</p>
+                    <button type="submit">Delete</button>
+                </li>
+            </ul>
+        </form>
+    {% endfor %}
+
+</body>
+</html>
