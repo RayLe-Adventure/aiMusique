@@ -26,7 +26,7 @@ app = Flask(__name__)
 
 ##CREATE DATABASE
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DATABASE_URL"]
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://gmdsfwidhwodwe:f97b78c79cbec3ff3bfccabcaa6d3aa0569aa5f101d0535ad783920cb901bbfd@ec2-54-74-60-70.eu-west-1.compute.amazonaws.com:5432/d1hckr90vuo84a"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///songs-collection.db"
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///songs-collection.db"
 # Optional: But it will silence the deprecation warning in the console.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
