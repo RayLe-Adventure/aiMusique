@@ -200,8 +200,8 @@ def nom_generator(text):
     return nom
 
 def music_generator(prompt, longeur):
-    profanity.add_censor_words(custom_badwords_f)
-    prompt = profanity.censor(prompt)
+    # profanity.add_censor_words(custom_badwords_f)
+    # prompt = profanity.censor(prompt)
     response = openai.Completion.create(
         model=model2,
         prompt=prompt,
