@@ -25,7 +25,7 @@ songs = []
 app = Flask(__name__)
 
 ## CREATE DATABASE
-uri = os.environ.get("DATABASE_URL")  # or other relevant config var
+uri = os.environ.get("DATABASE_URL", "sqlite:///songs-collection.db")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_DATABASE_URI'] = uri
