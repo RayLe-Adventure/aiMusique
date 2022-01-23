@@ -53,7 +53,7 @@ class Comment(db.Model):
 
     # Optional: this will allow each book object to be identified by its title when printed.
     def __repr__(self):
-        return f'<Song {self.nick}>'
+        return f'<Comment {self.nick}>'
 
 db.create_all()
 
