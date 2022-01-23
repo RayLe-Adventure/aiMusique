@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Small Business - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="static/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        {% include "header.html" %}
+
+        <div class="container px-4 px-lg-5">
+            <br>
+            <p class="text text-center">Actuellement {{len}} Commentaires enregistrés.</p>
+            <br>
+            <form class="row g-3" action="{{ url_for('comments') }}" method="post">
+                <div class="col-md-3">
+                    <label class="form-label"><b>Prenom/Nickname</b></label>
+                    <input type="text" class="form-control" placeholder="Nickname" name="nick">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><b>Emotion</b></label>
+                    <select name="emotion" class="form-select">
+                        <option value="&#x1F602;">&#x1F602;</option>
+                        <option value="&#x1F610;">&#x1F610;</option>
+                        <option value="&#x1F633;">&#x1F633;</option>
+                        <option value="&#x1F612;">&#x1F612;</option>
+                        <option value="&#x1F601;">&#x1F601;</option>
+                        <option value="&#x1F603;">&#x1F603;</option>
+                        <option value="&#x1F608;">&#x1F608;</option>
+                        <option value="&#x1F621;">&#x1F621;</option>
+                        <option value="&#x1F628;">&#x1F628;</option>
+                        <option value="&#x1F631;">&#x1F631;</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Votre commentaire</span>
+                    <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Commenter!</button>
+                </div>
+            </form>
+            <hr>
+
+            <ul>
+                {% for comment in comments: %}
+                    <br>
+                    <li class="card text-dark bg-{{style}} border-primary w-100">
+                        <div class="card-header text-center">
+                            <h5>{{comment.nick}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{comment.emotion}} {{comment.emotion}}</h5>
+                            <p class="card-text">{{comment.comment}}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            {{comment.date}}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        {% include "footer.html" %}
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

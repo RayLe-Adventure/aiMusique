@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Small Business - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="static/styles.css" rel="stylesheet" />
+        <script src="clip/dist/clipboard.min.js"></script>
+    </head>
+    <body>
+        {% include "header.html" %}
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <!-- Heading Row-->
+            <div class="row gx-4 gx-lg-5 align-items-center my-5">
+                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="static/micro.jpeg" alt="..." /></div>
+                <div class="col-lg-5">
+                    <h1 class="font-weight-light">Compositeur de paroles IA</h1>
+                    <p><b>Musique IA</b> permet composer/générer automatiquement des paroles pour votre musique grâce à l'Intelligence Artificielle!
+                        <br><br>À votre disposition également une base de paroles déjà composées sur notre site et sauvegardés par d'autres utilisateurs.
+                        <br><br><b>Vous êtes en manque d'inspiration? Musique IA vous donnera certainement des nouvelles idées !</b>
+                        <br><br>Bientôt disponible: composition automatique de musique (piano, guitare...) + la fusion avec des paroles.
+                    </p>
+                </div>
+            </div>
+            <!-- Call to Action-->
+            <div class="card text-white bg-primary my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">
+                    Pour que le logiciel puisse composer les paroles, il vous faut déterminer le sujet sous forme d'un mot (recommandé). Par exemple : amour, amitié, famille, je, elle.
+                    <br>Cela permettra à notre Intelligence Artificielle de guider la composition des paroles en ce sens.
+                    <br><br>Si vous souhaitez la composition "libre" des paroles, laissez l'onglet "Thème" vide (non-recommandé).
+                    <br>Il est à vous de déterminer la longueur souhaitée de paroles.
+                    <br><br>Si vous avez aimé la composition, vous pouvez la sauvegarder en rajoutant votre avis et la note. Ne perdez jamais votre composition préférée!
+                    <br>Elle sera disponible dans la section "Paroles Sauvegardés".
+                </p></div>
+            </div>
+            <!-- Content Row-->
+
+<!--
+                    <form action="{{ url_for('hello') }}" method="post">
+                        <label>Thème/1er mot</label>
+                        <input type="text" placeholder="Thème" name="theme"><br>
+                        <label>Longeur Token</label>
+                        <select name="longeur">
+                            <option value="200">court (recommandé) </option>
+                            <option value="500">moyen </option>
+                            <option value="1000">long (peut impacter la performance) </option>
+                        </select>
+                        <button type="submit">Ok</button><br>
+                        <a class="btn btn-primary" href="#!">Générer !</a>
+                    </form>-->
+
+
+            <form class="row g-3" action="{{ url_for('hello') }}" method="post">
+                <h2>Compositeur de Paroles IA</h2>
+                <hr>
+                <div class="col-md-3">
+                    <label class="form-label"><b>Thème/1er mot</b>(amour, amitié, je, elle..)</label>
+                    <input type="text" class="form-control" placeholder="Thème" maxlength="20" name="theme">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><b>Longueur des paroles</b></label>
+                    <select name="longeur" class="form-select">
+                        <option value="200">court (recommandé) </option>
+                        <option value="250">moyen </option>
+                        <option value="250">long (temporairement indisponible) </option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Composer !</button> (5 secondes environ)
+                </div>
+            </form>
+
+            {% if gena == True %}
+                <br><br>
+                <div class="card text-dark bg-{{style}} w-75">
+                    <div class="card-body">
+                        <h5 class="card-title">{{nom}}</h5>
+
+                        <p class="card-text">
+                            {% for music_line in music: %}
+                                {{music_line.capitalize()}}<br>
+                            {% endfor %}
+                        </p>
+
+                    </div>
+                      <div class="card-footer text-muted text-center">
+                          Musique IA
+                      </div>
+                </div>
+                <br>
+                <form class="row g-3" action="{{ url_for('get_songs') }}" method="post">
+                    <div class="col-md-3">
+                        <label class="form-label"><b>Avis sur les paroles</b></label>
+                        <input type="text" class="form-control" placeholder="Votre avis" name="avis">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label"><b>Note de 1 à 5</b></label>
+                        <select name="note" class="form-select">
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-{{style}}">Sauvegarder !</button>
+                    </div>
+                </form>
+                <br><br>
+            {% elif gena == False %}
+                <br><br>
+                <div class="card text-dark bg-{{style}} w-50">
+                    <div class="card-footer text-muted text-center">
+                          Musique IA
+                    </div>
+                </div>
+                <br><br>
+            {% endif %}
+            <br><br>
+            <div class="card text-white bg-primary my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">Qu'avez-vous pensé des paroles qui ont été générés?
+                <br>N'hésitez pas laisser votre avis dans les commentaires ci-dessous afin de partager votre expérience avec les autres utilisateurs et nous-mêmes.
+                <br><br>Votre commentaire sera lisible dans la section "Commentaires"</p></div>
+            </div>
+
+            <form class="row g-3" action="{{ url_for('comments') }}" method="post">
+                <div class="col-md-3">
+                    <label class="form-label"><b>Prenom/Nickname</b></label>
+                    <input type="text" class="form-control" placeholder="Nickname" name="nick">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label"><b>Emotion</b></label>
+                    <select name="emotion" class="form-select">
+                        <option value="&#x1F602;">&#x1F602;</option>
+                        <option value="&#x1F610;">&#x1F610;</option>
+                        <option value="&#x1F633;">&#x1F633;</option>
+                        <option value="&#x1F612;">&#x1F612;</option>
+                        <option value="&#x1F601;">&#x1F601;</option>
+                        <option value="&#x1F603;">&#x1F603;</option>
+                        <option value="&#x1F608;">&#x1F608;</option>
+                        <option value="&#x1F621;">&#x1F621;</option>
+                        <option value="&#x1F628;">&#x1F628;</option>
+                        <option value="&#x1F631;">&#x1F631;</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Votre commentaire</span>
+                    <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Commenter!</button>
+                </div>
+            </form>
+            <hr>
+
+
+        </div>
+        <!-- Footer-->
+        {% include "footer.html" %}
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
