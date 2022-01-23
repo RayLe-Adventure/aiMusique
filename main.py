@@ -235,7 +235,7 @@ def send_email(name, email, message):
 """
 def send_email(name, email, message):
     email_message = f"Name: {name}\nEmail: {email}\nMessage: \n{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
+    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls()
         connection.login(my_email, my_pass)
         connection.sendmail(my_email, my_email, email_message)
