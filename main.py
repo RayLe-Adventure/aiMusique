@@ -13,6 +13,8 @@ from better_profanity import profanity
 custom_badwords = ['bite', 'baisable,', 'baise', 'baiser', 'bander', 'branler', 'branlette', 'bordel', 'burnes', 'chatte', 'chiant', 'chiasse', 'chier', 'chiottes', 'con', 'conne', 'connerie', 'coucougnettes', 'couilles', 'couillu', 'cul', 'déconner', 'déconneur', 'emmerder', 'emmerdant', 'emmerdeur', 'empapaouter', 'enculer', 'entuber', 'faire chier', 'faire une pipe', 'foutoir', 'foutre', 'foutre le camp', 'foutu', 'gueule', 'gueuler', 'merde', 'merder', 'merdier', 'merdique', 'niquer', 'nique ta mère', 'pisser', 'putain', 'pute', 'roubignoles', 'roupettes', 'roustons', 'se démerder', 's’emmerder', 'se faire chier', 'se faire sauter', 'sucer', 'ta gueule !', 'tirer un coup', 'turlutte', 'zigounette', 'zob',
                    'alboche', 'boche', 'chleuh', 'doryphore', 'fridolin', 'frisé', 'frisou', 'fritz', 'prussien', 'schleu', 'teuton', 'vert-de-gris', "amerlo", 'amerloque', 'ricain', 'yankee', 'angliche', 'rosbif', 'arbi', 'bic', 'bicot', 'bougnoul', 'bougnoule', 'bronzé', 'crouillat', 'crouille', 'gris', 'melon', 'raton', 'sidi', 'bridé', 'chinetoque', 'bohémien', 'manouche', 'nomade', 'renard à deux pattes', 'rom', 'romanichel', 'romano', 'tsigane', 'tzigane', 'macaroni', 'rital', 'youd', 'youpin', 'youtre', 'bamboula', 'banania', 'black', 'blackos', 'bronzé', 'moricaud', 'nègre', 'négresse', 'négro', 'polack', 'polaque', 'niakoué', 'niaque']
 
+custom_badwords_f = ['frisou']
+
 openai.api_key = os.environ["GPT_API"]
 model = os.environ["MODEL_ADA"]
 model2 = os.environ["MODEL_CURIE"]
@@ -198,7 +200,7 @@ def nom_generator(text):
     return nom
 
 def music_generator(prompt, longeur):
-    profanity.add_censor_words(custom_badwords)
+    profanity.add_censor_words(custom_badwords_f)
     prompt = profanity.censor(prompt)
     response = openai.Completion.create(
         model=model2,
