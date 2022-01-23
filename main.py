@@ -221,7 +221,7 @@ def content_filter(text):
 
     print(f"output_label2 is {output_label}")
     return output_label
-
+"""
 def send_email(name, email, message):
     msg = EmailMessage()
     msg['From'] = my_email
@@ -232,6 +232,13 @@ def send_email(name, email, message):
         connection.starttls()
         connection.login(user=my_email, password=my_pass)
         connection.send_message(msg)
+"""
+def send_email(name, email, message):
+    email_message = f"Name: {name}\nEmail: {email}\nMessage: \n{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(my_email, my_pass)
+        connection.sendmail(my_email, my_email, email_message)
 
 if __name__ == "__main__":
     app.run(debug=False)
