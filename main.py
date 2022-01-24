@@ -9,6 +9,7 @@ import openai
 import random
 import sqlite3
 from better_profanity import profanity
+import requests
 
 # custom_badwords = ['bite', 'baisable,', 'baise', 'baiser', 'bander', 'branler', 'branlette', 'bordel', 'burnes', 'chatte', 'chiant', 'chiasse', 'chier', 'chiottes', 'con', 'conne', 'connerie', 'coucougnettes', 'couilles', 'couillu', 'cul', 'déconner', 'déconneur', 'emmerder', 'emmerdant', 'emmerdeur', 'empapaouter', 'enculer', 'entuber', 'faire chier', 'faire une pipe', 'foutoir', 'foutre', 'foutre le camp', 'foutu', 'gueule', 'gueuler', 'merde', 'merder', 'merdier', 'merdique', 'niquer', 'nique ta mère', 'pisser', 'putain', 'pute', 'roubignoles', 'roupettes', 'roustons', 'se démerder', 's’emmerder', 'se faire chier', 'se faire sauter', 'sucer', 'ta gueule !', 'tirer un coup', 'turlutte', 'zigounette', 'zob',
 #                   'alboche', 'boche', 'chleuh', 'doryphore', 'fridolin', 'frisé', 'frisou', 'fritz', 'prussien', 'schleu', 'teuton', 'vert-de-gris', "amerlo", 'amerloque', 'ricain', 'yankee', 'angliche', 'rosbif', 'arbi', 'bic', 'bicot', 'bougnoul', 'bougnoule', 'bronzé', 'crouillat', 'crouille', 'gris', 'melon', 'raton', 'sidi', 'bridé', 'chinetoque', 'bohémien', 'manouche', 'nomade', 'renard à deux pattes', 'rom', 'romanichel', 'romano', 'tsigane', 'tzigane', 'macaroni', 'rital', 'youd', 'youpin', 'youtre', 'bamboula', 'banania', 'black', 'blackos', 'bronzé', 'moricaud', 'nègre', 'négresse', 'négro', 'polack', 'polaque', 'niakoué', 'niaque']
@@ -20,6 +21,8 @@ model = os.environ["MODEL_ADA"]
 model2 = os.environ["MODEL_CURIE"]
 my_email = os.environ["MAIL_NAME"]
 my_pass = os.environ["MAIL_MDP"]
+mailgun_API = os.environ["MAILGUN_API_KEY"]
+mailgun_domain = os.environ["MAILGUN_DOMAIN"]
 pr = " \n\n###\n\n"
 card_styles = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light']
 songs = []
@@ -124,12 +127,28 @@ def get_song(id_song):
     style = random.choice(card_styles)
     return render_template("song.html", song=song, text=txt, style=style, date=datetime.date.today().year)
 
+# Contact form I'm not using anymore
+"""
 @app.route('/contact', methods=['GET', 'POST'])
 def get_contact():
     if request.method == "POST":
         data = request.form
         try:
             send_email(data["name"], data["email"], data["message"])
+            return render_template("msgsent.html", date=datetime.date.today().year, send=True)
+        except:
+            return render_template("msgsent.html", date=datetime.date.today().year, send=False)
+            pass
+    return render_template("contact.html", date=datetime.date.today().year)
+"""
+
+# Actually working contact thing
+@app.route('/contact', methods=['GET', 'POST'])
+def get_contact():
+    if request.method == "POST":
+        data = request.form
+        try:
+            send_simple_message(data["name"], data["email"], data["message"])
             return render_template("msgsent.html", date=datetime.date.today().year, send=True)
         except:
             return render_template("msgsent.html", date=datetime.date.today().year, send=False)
@@ -272,6 +291,8 @@ def content_filter(text):
     print(f"output_label2 is {output_label}")
     return output_label
 
+# Send mail I'm not using anymore
+"""
 def send_email(name, email, message):
     msg = EmailMessage()
     msg['From'] = my_email
@@ -283,12 +304,17 @@ def send_email(name, email, message):
         connection.login(user=my_email, password=my_pass)
         connection.send_message(msg)
 """
-def send_email(name, email, message):
-    email_message = f"Name: {name}\nEmail: {email}\nMessage: \n{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
-        connection.starttls()
-        connection.login(my_email, my_pass)
-        connection.sendmail(my_email, my_email, email_message)
-"""
+
+# nice working mail with MAILGUN app Heroku Add On
+def send_simple_message(name, email, message):
+    return requests.post(
+        f"https://api.mailgun.net/v3/{mailgun_domain}/messages",
+        auth=("api", mailgun_API),
+        data={"from": f"{name} <mailgun@{mailgun_domain}>",
+              "to": [my_email],
+              "subject": "Music-AI mail",
+              "text": f"from: {name}\nmail: {email}\nmesg: {message}"})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
