@@ -86,28 +86,23 @@
 
             {% if gena == True %}
                 <br><br>
-                <form class="row g-3" action="{{ url_for('get_songs') }}" method="post">
-                    <div class="col-12">
-                        <button type="submit" name="song_button" value="Play" class="btn btn-{{style}}">Play▶️!▶️</button>
+                <div class="card text-dark bg-{{style}} w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{nom}}</h5>
+
+                        <p class="card-text">
+                            {% for music_line in music: %}
+                                {{music_line.capitalize()}}<br>
+                            {% endfor %}
+                        </p>
+
                     </div>
-                    <div class="card text-dark bg-{{style}} w-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{nom}}</h5>
-
-                            <p class="card-text">
-                                {% for music_line in music: %}
-                                    {{music_line.capitalize()}}<br>
-                                {% endfor %}
-                            </p>
-
-                        </div>
-                          <div class="card-footer text-muted text-center">
-                              Musique IA
-                          </div>
-                    </div>
-
+                      <div class="card-footer text-muted text-center">
+                          Musique IA
+                      </div>
+                </div>
                 <br>
-
+                <form class="row g-3" action="{{ url_for('get_songs') }}" method="post">
                     <div class="col-md-3">
                         <label class="form-label"><b>Avis sur les paroles</b></label>
                         <input type="text" class="form-control" placeholder="Votre avis" name="avis">
@@ -123,7 +118,7 @@
                         </select>
                     </div>
                     <div class="col-12">
-                        <button type="submit" name="song_button" value="Save" class="btn btn-{{style}}">Sauvegarder !</button>
+                        <button type="submit" class="btn btn-{{style}}">Sauvegarder !</button>
                     </div>
                 </form>
                 <br><br>

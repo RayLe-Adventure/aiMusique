@@ -10,7 +10,6 @@ import random
 import sqlite3
 from better_profanity import profanity
 import requests
-import pyttsx3
 
 # custom_badwords = ['bite', 'baisable,', 'baise', 'baiser', 'bander', 'branler', 'branlette', 'bordel', 'burnes', 'chatte', 'chiant', 'chiasse', 'chier', 'chiottes', 'con', 'conne', 'connerie', 'coucougnettes', 'couilles', 'couillu', 'cul', 'déconner', 'déconneur', 'emmerder', 'emmerdant', 'emmerdeur', 'empapaouter', 'enculer', 'entuber', 'faire chier', 'faire une pipe', 'foutoir', 'foutre', 'foutre le camp', 'foutu', 'gueule', 'gueuler', 'merde', 'merder', 'merdier', 'merdique', 'niquer', 'nique ta mère', 'pisser', 'putain', 'pute', 'roubignoles', 'roupettes', 'roustons', 'se démerder', 's’emmerder', 'se faire chier', 'se faire sauter', 'sucer', 'ta gueule !', 'tirer un coup', 'turlutte', 'zigounette', 'zob',
 #                   'alboche', 'boche', 'chleuh', 'doryphore', 'fridolin', 'frisé', 'frisou', 'fritz', 'prussien', 'schleu', 'teuton', 'vert-de-gris', "amerlo", 'amerloque', 'ricain', 'yankee', 'angliche', 'rosbif', 'arbi', 'bic', 'bicot', 'bougnoul', 'bougnoule', 'bronzé', 'crouillat', 'crouille', 'gris', 'melon', 'raton', 'sidi', 'bridé', 'chinetoque', 'bohémien', 'manouche', 'nomade', 'renard à deux pattes', 'rom', 'romanichel', 'romano', 'tsigane', 'tzigane', 'macaroni', 'rital', 'youd', 'youpin', 'youtre', 'bamboula', 'banania', 'black', 'blackos', 'bronzé', 'moricaud', 'nègre', 'négresse', 'négro', 'polack', 'polaque', 'niakoué', 'niaque']
@@ -111,37 +110,14 @@ def comments():
 @app.route('/songs', methods=['GET', 'POST'])
 def get_songs():
     if request.method == 'POST':
-        if request.form['song_button'] == 'Save':
-            songs[-1]['avis'] = request.form['avis']
-            songs[-1]['note'] = int(request.form['note'])
-            new_song = Song(title=songs[-1]['nom'], text=songs[-1]['text'], avis=songs[-1]['avis'], note=songs[-1]['note'])
-            db.session.add(new_song)
-            db.session.commit()
-
-            all_songs = db.session.query(Song).all()
-            all_songs.reverse()
-
-            return render_template('songs.html', songs=all_songs, len=len(all_songs))
-        else:
-            voice_amelie = "com.apple.speech.synthesis.voice.amelie"
-            engine = pyttsx3.init()
-
-            engine.setProperty('voice', voice_amelie)
-            engine.setProperty('rate', 140)
-
-            text = songs[-1]['text']
-            txt = text.split("\n")
-            song_format_reading = text.replace('\n', ',')
-            engine.say(song_format_reading)
-            engine.runAndWait()
-
-            nom = songs[-1]['nom']
-            style = random.choice(card_styles)
-
-            new_song = Song(title=songs[-1]['nom'], text=songs[-1]['text'], avis="None", note="5")
-            db.session.add(new_song)
-            db.session.commit()
-            return render_template('index.html', music=txt, nom=nom, date=datetime.date.today().year, style=style, gena=True)
+        songs[-1]['avis'] = request.form['avis']
+        songs[-1]['note'] = int(request.form['note'])
+        new_song = Song(title=songs[-1]['nom'], text=songs[-1]['text'], avis=songs[-1]['avis'], note=songs[-1]['note'])
+        db.session.add(new_song)
+        db.session.commit()
+        all_songs = db.session.query(Song).all()
+        all_songs.reverse()
+        return render_template('songs.html', songs=all_songs, len=len(all_songs))
     all_songs = db.session.query(Song).all()
     all_songs.reverse()
     return render_template("songs.html", songs=all_songs, len=len(all_songs), date=datetime.date.today().year)
