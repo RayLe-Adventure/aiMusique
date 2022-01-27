@@ -86,9 +86,6 @@ def hello():
         return render_template("index.html", music=txt, nom=nom, date=datetime.date.today().year, style=style, gena=True)
     return render_template("index.html", date=datetime.date.today().year, gena=False)
 
-# @app.route()
-# def play_lyrics()
-
 @app.route('/comments', methods=['GET', 'POST'])
 def comments():
     if request.method == 'POST':
